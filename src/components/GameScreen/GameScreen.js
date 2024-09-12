@@ -15,6 +15,8 @@ import BlackBin  from "../../assets/waste-bin-tidyman.svg";
 import CompostBin from "../../assets/compostable-bin.svg";
 import WineBottle from "../../images/wine-bottle.svg";
 import PauseIcon  from "../../assets/pause-icon.svg";
+import ResponsiveSvg from "../ResponsiveSvg";
+
 const GameScreen = props => {
   const [currentItem, setCurrentItem] = useState({
     name: "Glass Bottles",
@@ -102,20 +104,22 @@ const GameScreen = props => {
         </SC.LivesContainer>
         <ProgressScore gameScreen count={props.count} />
       </SC.Header>
-
-      <SC.Scallop />
+      
+      {!isMobileScreen && <SC.Jellyfish /> }
+      {!isMobileScreen && <SC.Scallop /> }
       {!isMobileScreen && <SC.Algae1 />}
-      <SC.Algae2 />
-      <SC.Algae3 />
+      {!isMobileScreen && <SC.Algae2 /> }
+      {!isMobileScreen && <SC.Algae3 />}
+      
+      {!isMobileScreen && <SC.Algae1 />}
       {!isMobileScreen && <SC.Crab /> }
       {!isMobileScreen && <SC.Seahorse /> }
       {!isMobileScreen && <SC.RedFish />} 
-      <SC.Bubbles />
-      <SC.Wave2 />
-      <SC.Wave3 />
-      {!isMobileScreen && <SC.Jellyfish /> }
-      <SC.Wave4 />
-
+      {!isMobileScreen && <SC.Bubbles /> }
+      {!isMobileScreen &&<ResponsiveSvg SvgComponent={SC.Wave2} />}
+      {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave3} />}
+     
+      {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave4} />}
       <SC.GameItem>
         <DragDropContainer targetKey="bins">
           {itemVisibility && (
@@ -162,7 +166,7 @@ const GameScreen = props => {
       </SC.CompostBinBox>
 
       {!isMobileScreen && <SC.Octopus /> }
-      <SC.Wave5 />
+      {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} /> }
 
       <SC.ItemText>{currentItem.name}</SC.ItemText>
     </Container>

@@ -215,7 +215,8 @@ const Jellyfish = styled(JellyfishSvg)`
   width: 6.8vw;
   height: 8.3vh;
   left: 25%;
-  bottom: 12%;
+  bottom: 10%;
+  z-index: 900;
   transform: rotate(-10deg);
   @media (max-width: 480px) {
     height: 6.3vh;
