@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useDrag, useDrop } from "react-dnd";
 import ProgressScore from "./ProgressScore";
 import SuccessModal from "./SuccessModal";
@@ -87,8 +87,28 @@ const GameScreen = props => {
   const [shakingBin, setShakingBin] = useState(null);
   const [failModal, setFailModal] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
-  const isMobileScreen = window.matchMedia('screen and (max-width: 768px)').matches;
+  // State for screen size
+  const [isMobileScreen, setIsMobileScreen] = useState(window.matchMedia('screen and (max-width: 768px)').matches);
+  const [isSmallMobileScreen, setIsSmallMobileScreen] = useState(window.matchMedia('screen and (max-width: 425px)').matches);
 
+  // Function to check screen sizes
+  const checkScreenSize = () => {
+    setIsMobileScreen(window.matchMedia('screen and (max-width: 768px)').matches);
+    setIsSmallMobileScreen(window.matchMedia('screen and (max-width: 425px)').matches);
+  };
+
+  useEffect(() => {
+    // Initial check
+    checkScreenSize();
+
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup on component unmount
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
   const dropReaction = currentBin => {
     setItemVisibility(!itemVisibility);
 
@@ -172,7 +192,7 @@ const GameScreen = props => {
       {!isMobileScreen && <SC.Jellyfish /> }
       {!isMobileScreen && <SC.Scallop /> }
       {!isMobileScreen && <SC.Algae1 />}
-      {!isMobileScreen && <SC.Algae2 /> }
+      {isMobileScreen && <SC.Algae2 /> }
       {!isMobileScreen && <SC.Algae3 />}
       
       {!isMobileScreen && <SC.Algae1 />}
@@ -219,8 +239,8 @@ const GameScreen = props => {
       </SC.CompostBinBox>
 
       {!isMobileScreen && <SC.Octopus /> }
-      {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} /> }
-
+      {isMobileScreen && !isSmallMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} /> }
+      {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} />}
       <SC.ItemText>{currentItem.name}</SC.ItemText>
     </Container>
   );
