@@ -1,12 +1,16 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, {useState} from "react";
+import { Route, Routes } from "react-router-dom";
 import Error from "./components/Error/Error";
 import GameScreen from "./components/GameScreen/GameScreen";
 import ResultScreen from "./components/ResultScreen/ResultScreen";
 import LandingScreen from "./components/LandingScreen/LandingScreen";
-// import { showFunFactsModal, hideFunFactsModal } from "./utils/functions";
 
 function App() {
+  const [count, setCount] = useState(0);
+  const [funFactsModal, setFunFactsModal] = useState(false);
+  const [howToPlayModal, setHowToPlayModal] = useState(false);
+  const [badCount, setBadCount] = useState(0);
+
   const showFunFactsModal = () => {
     setFunFactsModal(!funFactsModal);
   };
@@ -24,19 +28,12 @@ function App() {
     setHowToPlayModal(!howToPlayModal);
   };
 
-  const [count, setCount] = React.useState(0);
-  const [funFactsModal, setFunFactsModal] = React.useState(false);
-  const [howToPlayModal, setHowToPlayModal] = React.useState(false);
-  const [badCount, setBadCount] = React.useState(0);
-
   return (
     <main className="App">
-    
-      <Switch>
-        {/* setting game screen as home for code review */}
+      <Routes>
         <Route
           path="/"
-          render={() => (
+          element={
             <LandingScreen
               funFactsModal={funFactsModal}
               setFunFactsModal={setFunFactsModal}
@@ -47,12 +44,11 @@ function App() {
               howToPlayModal={howToPlayModal}
               setHowToPlayModal={setHowToPlayModal}
             />
-          )}
-          exact
+          }
         />
         <Route
           path="/game"
-          render={() => (
+          element={
             <GameScreen
               count={count}
               setCount={setCount}
@@ -67,11 +63,11 @@ function App() {
               showFunFactsModal={showFunFactsModal}
               hideFunFactsModal={hideFunFactsModal}
             />
-          )}
+          }
         />
         <Route
           path="/results"
-          render={() => (
+          element={
             <ResultScreen
               count={count}
               setCount={setCount}
@@ -82,11 +78,10 @@ function App() {
               badCount={badCount}
               setBadCount={setBadCount}
             />
-          )}
+          }
         />
-        <Route component={Error} />
-      </Switch>
-      
+        <Route path="*" element={<Error />} />
+      </Routes>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "../Button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ModalHeader, Spacer } from "../MasterCss";
 import { ReactComponent as StarsSvg } from "../../assets/stars.svg";
 import { ReactComponent as SpaceOctopus } from "../../assets/space-octopus.svg";
@@ -39,10 +39,10 @@ const Stars = styled(StarsSvg)`
 `;
 
 const Error = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const goHome = () => {
-    history.push("/");
+    navigate("/");
   };
 
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import items from "../../utils/itemData";
 import Button from "../Button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as SC from "../MasterCss";
 import UIfx from "uifx";
 import errorSound from "../../assets/sounds/alert_error-01.mp3";
@@ -34,11 +34,11 @@ const FailModal = props => {
     props.setItemVisibility(!props.itemVisibility);
   };
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleModal = () => {
     hideModal();
     if (props.badCount === 3) {
-      history.push("/results");
+      navigate("/results");
     }
   };
 

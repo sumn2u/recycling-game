@@ -76,7 +76,6 @@ const MessageBox = styled.div`
     `}
 
   ${props =>
-
     props.results &&
     css`
     justify-content: center;
@@ -153,31 +152,46 @@ const IconBin = styled.img`
     height: 22vh;
   }
 `;
+
 const IconImage = styled.img`
   margin-left: 4.1rem;
   height: 3.3em;
   margin-top: 0.6rem;
   cursor: pointer;
+  position: relative; /* Changed to relative for top positioning */
   top: 3.8%;
-  
+
+  ${props =>
+    props.heart &&
+    css`
+      /* Specific styles for when 'game' prop is true */
+      margin-top: 0rem; /* Consistent with above media query */
+    `}
+
   @media (max-width: 768px) {
     margin-top: 0;
     margin-left: 0.1rem;
-    ${props =>
-    props.game &&
-    css`
-      height: 2.3em;
-    `}
+    height: 2.3em;
 
-  }
-  @media (max-width: 480px) {
-    left: 3%;
-    margin-left: 0.1rem;
     ${props =>
-    props.game &&
-    css`
-      height: 3.3em;
-    `}
+      props.game &&
+      css`
+        /* Specific styles for when 'game' prop is true */
+        height: 2.3em; /* Consistent with above media query */
+      `}
+  }
+
+  @media (max-width: 480px) {
+    top: 0; /* Adjusted to remove percentage-based positioning */
+    margin-left: 0.1rem;
+    height: 2.8em; /* Slight adjustment for better fit */
+
+    ${props =>
+      props.game &&
+      css`
+        /* Specific styles for when 'game' prop is true */
+        height: 2.5em; /* Consistent with above media query */
+      `}
   }
 `;
 

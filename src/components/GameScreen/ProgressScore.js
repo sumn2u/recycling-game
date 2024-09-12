@@ -9,7 +9,8 @@ const ScoreContainer = styled.div`
   justify-content: flex-end;
   width: 100%
   padding-right: 1vw;
-
+  margin-right: 0.5rem;
+  
   ${props => props.results && css`
   padding: 0;
   `}
@@ -19,18 +20,28 @@ const Score = styled.p`
 font-family: Bungee;
 font-style: normal;
 font-weight: normal;
-font-size: 6vh;
+font-size: 5.5vh;
 margin: 0;
-margin-top: 0.6rem;
 margin-right: 0.4rem;
 /* identical to box height */
 color: #FF8A00;
 -webkit-text-stroke: 2px #000000;
 text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+@media (max-width: 1024px) {
+  font-size: 5.5vh; /* Slightly smaller for tablets and medium screens */
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 768px) {
+  font-size: 3.5vh; /* Smaller for mobile devices */
+  margin-right: 0.6rem; /* Adjust margin for smaller screens */
+  margin-top: 0rem;
+}
+
 @media (max-width: 480px) {
-    font-size: 5vh;
-    margin-top: 0;
-  }
+  font-size: 4.5vh; /* Smaller for very small screens */
+  margin-right: 0.2rem; /* Adjust margin for smaller screens */
+}
 `;
 
 const ProgressScore = props => {

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "../Button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HowToPlayModal from "./HowToPlayModal";
 import FunFactsModal from "./FunFacts";
 import { spinscale } from "../Keyframes";
@@ -89,10 +89,10 @@ const Stars = styled.div`
 `;
 
 const LandingScreen = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const isMobileScreen = window.matchMedia('screen and (max-width: 768px)').matches;
   const startGame = () => {
-   history.push("/game")
+    navigate("/game")
   };
 
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ProgressScore from "./ProgressScore";
 import SuccessModal from "./SuccessModal";
 import FailModal from "./FailModal";
@@ -16,17 +16,17 @@ import CompostBin from "../../assets/compostable-bin.svg";
 import WineBottle from "../../images/wine-bottle.svg";
 import PauseIcon  from "../../assets/pause-icon.svg";
 const GameScreen = props => {
-  const [currentItem, setCurrentItem] = React.useState({
+  const [currentItem, setCurrentItem] = useState({
     name: "Glass Bottles",
     src: WineBottle,
     bin: "recycling",
     binImg: "images/recycle-bin.svg",
     fact: "Families use around 330 glass bottles and jars every year"
   });
-  const [itemVisibility, setItemVisibility] = React.useState(true);
-  const [successModal, setSuccessModal] = React.useState(false);
-  const [failModal, setFailModal] = React.useState(false);
-  const [optionsModal, setOptionsModal] = React.useState(false);
+  const [itemVisibility, setItemVisibility] = useState(true);
+  const [successModal, setSuccessModal] = useState(false);
+  const [failModal, setFailModal] = useState(false);
+  const [optionsModal, setOptionsModal] = useState(false);
   const isMobileScreen = window.matchMedia('screen and (max-width: 768px)').matches;
   const dropReaction = currentBin => {
     setItemVisibility(!itemVisibility);

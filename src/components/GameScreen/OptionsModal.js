@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import playIcon from "../../assets/play-icon.svg";
 import {
   PlayIcon
@@ -54,12 +54,12 @@ const OptionsModal = props => {
     props.setOptionsModal(!props.optionsModal);
   };
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const quitGame = () => {
     props.setCount(0);
     props.setBadCount(0);
-    history.push("/");
+    navigate("/");
   };
 
   return (
