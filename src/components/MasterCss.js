@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 const Paragraph = styled.p`
   font-size: 0.95em;
@@ -152,6 +152,30 @@ const IconBin = styled.img`
     height: 22vh;
   }
 `;
+// Define shake animation
+const shakeAnimation = keyframes`
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-10px); }
+  20% { transform: translateX(10px); }
+  30% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  50% { transform: translateX(-10px); }
+  60% { transform: translateX(10px); }
+  70% { transform: translateX(-10px); }
+  80% { transform: translateX(10px); }
+  90% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+`;
+
+// Create a styled component for the bin with the shake animation
+const ShakingIconBin = styled(IconBin)`
+  ${(props) =>
+    props.isShaking &&
+    css`
+      animation: ${shakeAnimation} 0.5s;
+    `}
+`;
+
 
 const IconImage = styled.img`
   margin-left: 4.1rem;
@@ -246,6 +270,7 @@ export {
   Paragraph,
   IconImage,
   IconBin,
+  ShakingIconBin,
   Spacer,
   PlayIcon,
   Wrapper

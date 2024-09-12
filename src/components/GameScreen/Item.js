@@ -45,7 +45,7 @@ const GameItem = styled.img`
 `;
 
 const Item = props => {
-  return <GameItem src={props.item.src} alt="Drag me to the right bin!" />;
+  return <GameItem src={props.item.src} alt={props.item.name} />;
 };
 
 export default Item;

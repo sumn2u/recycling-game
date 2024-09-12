@@ -4,13 +4,17 @@ import Error from "./components/Error/Error";
 import GameScreen from "./components/GameScreen/GameScreen";
 import ResultScreen from "./components/ResultScreen/ResultScreen";
 import LandingScreen from "./components/LandingScreen/LandingScreen";
+import { DndProvider } from 'react-dnd';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   const [count, setCount] = useState(0);
   const [funFactsModal, setFunFactsModal] = useState(false);
   const [howToPlayModal, setHowToPlayModal] = useState(false);
   const [badCount, setBadCount] = useState(0);
-
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const Backend = isMobile ? TouchBackend : HTML5Backend; 
   const showFunFactsModal = () => {
     setFunFactsModal(!funFactsModal);
   };
@@ -49,20 +53,25 @@ function App() {
         <Route
           path="/game"
           element={
-            <GameScreen
-              count={count}
-              setCount={setCount}
-              badCount={badCount}
-              setBadCount={setBadCount}
-              hideHowToPlayModal={hideHowToPlayModal}
-              showHowToPlayModal={showHowToPlayModal}
-              howToPlayModal={howToPlayModal}
-              setHowToPlayModal={setHowToPlayModal}
-              funFactsModal={funFactsModal}
-              setFunFactsModal={setFunFactsModal}
-              showFunFactsModal={showFunFactsModal}
-              hideFunFactsModal={hideFunFactsModal}
-            />
+            <DndProvider backend={Backend}
+            options={{ enableMouseEvents: true,
+            enableTouchEvents: true }}
+            >
+              <GameScreen
+                count={count}
+                setCount={setCount}
+                badCount={badCount}
+                setBadCount={setBadCount}
+                hideHowToPlayModal={hideHowToPlayModal}
+                showHowToPlayModal={showHowToPlayModal}
+                howToPlayModal={howToPlayModal}
+                setHowToPlayModal={setHowToPlayModal}
+                funFactsModal={funFactsModal}
+                setFunFactsModal={setFunFactsModal}
+                showFunFactsModal={showFunFactsModal}
+                hideFunFactsModal={hideFunFactsModal}
+              />
+            </DndProvider>
           }
         />
         <Route

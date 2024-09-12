@@ -1,21 +1,78 @@
 import React, {useState} from "react";
+import { useDrag, useDrop } from "react-dnd";
 import ProgressScore from "./ProgressScore";
 import SuccessModal from "./SuccessModal";
 import FailModal from "./FailModal";
 import OptionsModal from "./OptionsModal";
 import Item from "./Item";
 import LivesScore from "./LivesScore";
-import { Container, IconImage, IconBin } from "../MasterCss";
+import { Container, IconImage, ShakingIconBin } from "../MasterCss";
 import HowToPlayModal from "../LandingScreen/HowToPlayModal";
 import FunFactsModal from "../LandingScreen/FunFacts";
 import * as SC from "./GameScreen.style";
-import { DragDropContainer, DropTarget } from "react-drag-drop-container";
 import RecycleBin from "../../assets/recycle-bin.svg";
 import BlackBin  from "../../assets/waste-bin-tidyman.svg";
 import CompostBin from "../../assets/compostable-bin.svg";
 import WineBottle from "../../images/wine-bottle.svg";
 import PauseIcon  from "../../assets/pause-icon.svg";
 import ResponsiveSvg from "../ResponsiveSvg";
+
+const ItemTypes = {
+  BIN: 'bin',
+};
+
+// Draggable Item Component
+const DraggableItem = ({ item }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.BIN,
+    item: { ...item },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }), [item]);
+
+  return (
+    <div ref={drag} style={{ opacity: isDragging ? 0.9 : 1 }}>
+      <Item item={item} />
+    </div>
+  );
+};
+
+// Droppable Target Component
+const DroppableTarget = ({ onDrop, binType, isShaking }) => {
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.BIN,
+    drop: (item) => onDrop(item, binType),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
+    }),
+  }), [onDrop, binType]);
+
+  return (
+    <ShakingIconBin
+      ref={drop}
+      isShaking={isOver}
+      src={getBinImageSrc(binType)} // Pass the src here based on binType
+      alt={`bin-${binType}`}
+    />
+  );
+};
+
+// Helper function to get image source based on bin type
+const getBinImageSrc = (binType) => {
+  switch (binType) {
+    case 'general waste':
+      return BlackBin;
+    case 'recycling':
+      return RecycleBin;
+    case 'food compost':
+      return CompostBin;
+    default:
+      return '';
+  }
+};
+
 
 const GameScreen = props => {
   const [currentItem, setCurrentItem] = useState({
@@ -27,9 +84,11 @@ const GameScreen = props => {
   });
   const [itemVisibility, setItemVisibility] = useState(true);
   const [successModal, setSuccessModal] = useState(false);
+  const [shakingBin, setShakingBin] = useState(null);
   const [failModal, setFailModal] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
   const isMobileScreen = window.matchMedia('screen and (max-width: 768px)').matches;
+
   const dropReaction = currentBin => {
     setItemVisibility(!itemVisibility);
 
@@ -40,6 +99,11 @@ const GameScreen = props => {
       setFailModal(!failModal);
       props.setBadCount(props.badCount + 1);
     }
+  };
+
+  const dropped = (item, binType) => {
+    // Set the shaking bin
+    dropReaction(binType);
   };
 
   const showOptionsModal = () => {
@@ -121,48 +185,37 @@ const GameScreen = props => {
      
       {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave4} />}
       <SC.GameItem>
-        <DragDropContainer targetKey="bins">
+        
           {itemVisibility && (
-            <Item
-              item={currentItem}
-              itemVisibility={itemVisibility}
-              setItemVisibility={setItemVisibility}
-            />
+            <DraggableItem
+            item={currentItem}
+          />
           )}
-        </DragDropContainer>
+
       </SC.GameItem>
 
       <SC.BlackBinBox>
-        <DropTarget
-          targetKey="bins"
-          onHit={() => {
-            dropReaction("general waste");
-          }}
-        >
-          <IconBin dustbin src={BlackBin}  title="blackbin" />
-        </DropTarget>
+      <DroppableTarget
+          onDrop={(item, binType) => dropped(item, binType)}
+          binType="general waste"
+          isShaking={shakingBin === "general waste"}
+        />
       </SC.BlackBinBox>
 
       <SC.RecycleBinBox>
-        <DropTarget
-          targetKey="bins"
-          onHit={() => {
-            dropReaction("recycling");
-          }}
-        >
-          <IconBin dustbin src={RecycleBin}  title="recyclebin" />
-        </DropTarget>
+      <DroppableTarget
+          onDrop={(item, binType) => dropped(item, binType)}
+          binType="recycling"
+          isShaking={shakingBin === "recycling"}
+        />
       </SC.RecycleBinBox>
 
       <SC.CompostBinBox>
-        <DropTarget
-          targetKey="bins"
-          onHit={() => {
-            dropReaction("food compost");
-          }}
-        >
-        <IconBin dustbin src={CompostBin} title="compostbin" />
-        </DropTarget>
+      <DroppableTarget
+          onDrop={(item, binType) => dropped(item, binType)}
+          binType="food compost"
+          isShaking={shakingBin === "food compost"}
+        />
       </SC.CompostBinBox>
 
       {!isMobileScreen && <SC.Octopus /> }
