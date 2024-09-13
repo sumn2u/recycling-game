@@ -22,6 +22,7 @@ font-style: normal;
 font-weight: normal;
 font-size: 5.5vh;
 margin: 0;
+margin-top: 0.3rem;
 margin-right: 0.4rem;
 /* identical to box height */
 color: #FF8A00;
@@ -39,7 +40,7 @@ text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 480px) {
-  font-size: 4.5vh; /* Smaller for very small screens */
+  font-size: 4.0vh; /* Smaller for very small screens */
   margin-right: 0.2rem; /* Adjust margin for smaller screens */
 }
 `;
