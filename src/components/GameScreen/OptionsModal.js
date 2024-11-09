@@ -62,6 +62,7 @@ const OptionsModal = props => {
   const quitGame = () => {
     props.setCount(0);
     props.setBadCount(0);
+    props.setGame(null);
     navigate("/");
   };
 
@@ -70,7 +71,7 @@ const OptionsModal = props => {
       <PlayIcon src={playIcon} onClick={hideOptionsModal} cursor="pointer"/>
       <OptionsList>
         <OptionsListItem onClick={props.showHowToPlayModal} cursor="pointer">How to play</OptionsListItem>
-        <OptionsListItem onClick={props.showFunFactsModal}  cursor="pointer">Recycling Information</OptionsListItem>
+        {props.showRecycleInformation && <OptionsListItem onClick={props.showFunFactsModal}  cursor="pointer">Recycling Information</OptionsListItem>}
         <OptionsListItem onClick={quitGame}  cursor="pointer">Quit</OptionsListItem>
       </OptionsList>
     </OptionsBox>

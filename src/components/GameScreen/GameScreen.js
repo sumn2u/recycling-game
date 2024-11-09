@@ -150,6 +150,7 @@ const GameScreen = props => {
           setItemVisibility={setItemVisibility}
           failModal={failModal}
           setFailModal={setFailModal}
+          game={"waste-sorting"}
           badCount={props.badCount}
         />
       )}
@@ -158,12 +159,14 @@ const GameScreen = props => {
           optionsModal={optionsModal}
           setOptionsModal={setOptionsModal}
           setCount={props.setCount}
+          setGame={props.setGame}
           setBadCount={props.setBadCount}
           funFactsModal={props.funFactsModal}
           setFunFactsModal={props.setFunFactsModal}
           howToPlayModal={props.howToPlayModal}
           setHowToPlayModal={props.setHowToPlayModal}
           showFunFactsModal={props.showFunFactsModal}
+          showRecycleInformation={true}
           hideFunFactsModal={props.hideFunFactsModal}
           hideHowToPlayModal={props.hideHowToPlayModal}
           showHowToPlayModal={props.showHowToPlayModal}
@@ -171,7 +174,7 @@ const GameScreen = props => {
       )}
 
       {props.howToPlayModal && (
-        <HowToPlayModal handleClose={props.hideHowToPlayModal}></HowToPlayModal>
+        <HowToPlayModal handleClose={props.hideHowToPlayModal} game={"waste-sorting"}></HowToPlayModal>
       )}
       {props.funFactsModal && (
         <FunFactsModal handleClose={props.hideFunFactsModal}></FunFactsModal>

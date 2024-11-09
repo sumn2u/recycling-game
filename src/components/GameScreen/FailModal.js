@@ -38,7 +38,7 @@ const FailModal = props => {
   const handleModal = () => {
     hideModal();
     if (props.badCount === 3) {
-      navigate("/results");
+      navigate(`/results?game=${props.game}`);
     }
   };
 

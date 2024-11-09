@@ -47,6 +47,32 @@ const PageHeader = styled.h1`
 
 `;
 
+const PageTitle = styled.h1`
+  font-family: Freckle Face;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 5vh;
+  line-height: 4vh;
+  color: #ff8a00;
+  -webkit-text-stroke: 2px black;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-block-end: 0px;
+  display: inline;
+  @media (max-width: 480px) {
+    font-size: 4vh;
+    line-height: 4vh;;
+    margin-left: 2rem;
+    ${props =>
+
+    props.nomargin &&
+    css`
+      margin: 0;
+    `}
+  }
+
+`;
+
 const MessageBox = styled.div`
   width: 80vw;
   min-height: 20vh;
@@ -277,5 +303,6 @@ export {
   ShakingIconBin,
   Spacer,
   PlayIcon,
+  PageTitle,
   Wrapper
 };

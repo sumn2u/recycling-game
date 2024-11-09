@@ -4,20 +4,25 @@ import Error from "./components/Error/Error";
 import GameScreen from "./components/GameScreen/GameScreen";
 import ResultScreen from "./components/ResultScreen/ResultScreen";
 import LandingScreen from "./components/LandingScreen/LandingScreen";
+import GameSelectionScreen from "./components/GameSelectionScreen/GameSelectionScreen";
+import PuzzleBoardScreen from "./components/PuzzleBoardScreen/PuzzleBoardScreen";
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import puzzleGameImg from './assets/puzzle-game.jpg';
 
 function App() {
   const [count, setCount] = useState(0);
   const [funFactsModal, setFunFactsModal] = useState(false);
   const [howToPlayModal, setHowToPlayModal] = useState(false);
   const [badCount, setBadCount] = useState(0);
+  const [game, setGame] = useState(null)
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   const Backend = isMobile ? TouchBackend : HTML5Backend; 
   const showFunFactsModal = () => {
     setFunFactsModal(!funFactsModal);
   };
+
 
   const hideFunFactsModal = () => {
     setFunFactsModal(!funFactsModal);
@@ -41,6 +46,7 @@ function App() {
             <LandingScreen
               funFactsModal={funFactsModal}
               setFunFactsModal={setFunFactsModal}
+              setGame={setGame}
               showFunFactsModal={showFunFactsModal}
               hideFunFactsModal={hideFunFactsModal}
               hideHowToPlayModal={hideHowToPlayModal}
@@ -51,7 +57,38 @@ function App() {
           }
         />
         <Route
-          path="/game"
+          path="/game-selection"
+          element={ 
+            <GameSelectionScreen
+            setGame={setGame}
+            />
+          }
+        />
+
+        <Route
+          path="/waste-puzzle"
+          element={
+            <DndProvider backend={Backend}
+            options={{ enableMouseEvents: true,
+            enableTouchEvents: true }}
+            >
+              <PuzzleBoardScreen
+                puzzleImage={puzzleGameImg}
+                count={count}
+                setCount={setCount}
+                badCount={badCount}
+                setGame={setGame}
+                setBadCount={setBadCount}
+                hideHowToPlayModal={hideHowToPlayModal}
+                showHowToPlayModal={showHowToPlayModal}
+                howToPlayModal={howToPlayModal}
+                setHowToPlayModal={setHowToPlayModal}
+                />
+              </DndProvider>
+          }
+        />
+        <Route
+          path="/waste-sorting"
           element={
             <DndProvider backend={Backend}
             options={{ enableMouseEvents: true,
@@ -62,6 +99,7 @@ function App() {
                 setCount={setCount}
                 badCount={badCount}
                 setBadCount={setBadCount}
+                setGame={setGame}
                 hideHowToPlayModal={hideHowToPlayModal}
                 showHowToPlayModal={showHowToPlayModal}
                 howToPlayModal={howToPlayModal}

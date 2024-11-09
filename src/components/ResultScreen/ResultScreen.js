@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import badges from "../../utils/badgeData";
 import ProgressScore from "../GameScreen/ProgressScore";
@@ -30,6 +30,8 @@ const ButtonContainer = styled.div`
 
 const ResultScreen = props => {
   const [badgeGiven, setBadgeGiven] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const game = searchParams.get('game');
 
   useEffect(() => {
     if (props.count === 1) {
@@ -48,7 +50,10 @@ const ResultScreen = props => {
   const restartGame = () => {
     props.setCount(0);
     props.setBadCount(0);
-    navigate("/game");
+    if(game) {
+      navigate(`/${game}`);
+    }
+    
   };
 
   return (

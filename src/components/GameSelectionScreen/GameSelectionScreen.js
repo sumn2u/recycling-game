@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
-import HowToPlayModal from "./HowToPlayModal";
-import FunFactsModal from "./FunFacts";
 import { spinscale } from "../Keyframes";
 
 import { ReactComponent as EarthSvg } from "../../assets/earth.svg";
@@ -88,17 +86,18 @@ const Stars = styled.div`
   animation: ${ spinscale } 4s linear infinite alternate;
 `;
 
-const LandingScreen = props => {
+const GameSelectionScreen = props => {
   const navigate = useNavigate();
   const isMobileScreen = window.matchMedia('screen and (max-width: 768px)').matches;
-  const startGame = () => {
-    navigate("/game-selection")
+  const startGame = (game) => {
+    props.setGame(game)
+    navigate(game)
   };
 
   return (
     
     <Container>
-      <Title>reduce, reuse, recycle!</Title>
+      <Title>Select a game!</Title>
 
 
       <Octopus>
@@ -112,37 +111,22 @@ const LandingScreen = props => {
       </Earth>
       {!isMobileScreen && <Spacer/> }
       <ButtonWrapper>
-        <Button
-          primaryR
-          type="button"
-          renderAs="button"
-          handleClick={startGame}
-          label="Let's Play!"
-        ></Button>
-        <Spacer/>
-        {!isMobileScreen && <Spacer/> }
-        <ButtonContainer>
-          {props.howToPlayModal && (
-            <HowToPlayModal
-              handleClose={props.hideHowToPlayModal}
-            ></HowToPlayModal>
-          )}
-          {props.funFactsModal && (
-            <FunFactsModal handleClose={props.hideFunFactsModal}></FunFactsModal>
-          )}
-          
-          <Button
+      <ButtonContainer>
+
+<Button primaryR
             type="button"
-            handleClick={props.showHowToPlayModal}
-            label="How To Play"
+            label="Waste Sorting ♻️"
+            handleClick={() => startGame('/waste-sorting')}
           ></Button>
           <Spacer/>
           <Button
             type="button"
-            handleClick={props.showFunFactsModal}
-            label="Fun Facts"
+            handleClick={() => startGame('/waste-puzzle')}
+            label="Waste Puzzle 🧩"
           ></Button>
-        </ButtonContainer>
+          </ButtonContainer>
+        <Spacer/>
+        {!isMobileScreen && <Spacer/> }
       </ButtonWrapper>
       <Spacer/>
     </Container>
@@ -151,4 +135,4 @@ const LandingScreen = props => {
   );
 };
 
-export default LandingScreen;
+export default GameSelectionScreen;
