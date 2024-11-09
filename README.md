@@ -14,7 +14,6 @@ This is a fun and educational recycling game designed for children aged 4-6 year
 
 ### Waste Puzzle 🧩
 <img alt="game-option" src="./snapshots/game-option.png" width="25%"><img alt="puzzle-rule" src="./snapshots/puzzle-rule.png" width="25%"><img alt="puzzle-rule" src="./snapshots/puzzle-game.png" width="25%"><img alt="puzzle-game-error" src="./snapshots/puzzle-game-error.png" width="25%">
-<img alt="puzzle-game-error" src="./snapshots/puzzle-game-error.png" width="25%">
 <img alt="puzzle-game-error" src="./snapshots/puzzle-game-success.png" width="25%">
 
 
