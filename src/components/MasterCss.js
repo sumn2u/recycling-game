@@ -59,6 +59,7 @@ const MessageBox = styled.div`
   flex-direction: row;
   align-items: center;
   align-self: center;
+  transition: box-shadow 0.3s ease;
   @media (max-width: 480px) {
     min-height: 12vh;
     ${props =>
@@ -80,6 +81,9 @@ const MessageBox = styled.div`
     css`
     justify-content: center;
     `}
+  &:hover {
+    box-shadow: 10px 10px 20px rgba(36, 36, 36, 0.5);
+  }
 `;
 
 const BadgeBox = styled.div`

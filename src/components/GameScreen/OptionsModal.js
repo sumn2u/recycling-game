@@ -40,12 +40,15 @@ const OptionsListItem = styled.li`
   font-size: 1.5rem;
   align-items: center;
   color: #ffffff;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   line-height: 2.2rem;
   @media (max-width: 480px) {
     font-size: 1.2rem;
     line-height: 1.7rem;
+  }
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
