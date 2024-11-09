@@ -71,8 +71,6 @@ const HowToPlayModal = ({ handleClose, game }) => {
   const svgSize = window.matchMedia('screen and (max-width: 768px)').matches ? '20%' : '8rem';
   const isWasteSortingGame = game && game.toLowerCase() == "waste-sorting"
   const isWastePuzzleGame = game && game.toLowerCase() == "waste-puzzle"
-  console.log(isWasteSortingGame, 'isWasteSortingGame', isWastePuzzleGame, 'isWastePuzzleGame')
-
 
   return (
     <>

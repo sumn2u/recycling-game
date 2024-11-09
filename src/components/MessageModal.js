@@ -17,11 +17,19 @@ const ModalContainer = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1500;
+  @media (max-width: 480px) {
+    padding: 1.5em;
+    font-size: 1.2em; // Adjust font size for smaller screens
+  }
 `;
 
 const ModalMessage = styled.h1`
   font-size: 2em;
   margin-bottom: 1em;
+  @media (max-width: 768px) {
+    padding: 1.5em;
+    font-size: 1.2em; // Adjust font size for smaller screens
+  }
 `;
 
 const MessageModal = ({ type, message, onClose }) => {

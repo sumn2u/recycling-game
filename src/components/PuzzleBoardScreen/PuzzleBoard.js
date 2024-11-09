@@ -36,12 +36,12 @@ const PuzzleTargetsContainer = styled.div`
 
   /* Adjust grid for medium-sized screens */
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 100px); /* Switch to 2 columns */
+    grid-template-columns: repeat(3, 100px); /* Switch to 2 columns */
   }
 
   /* Adjust grid for small screens */
   @media (max-width: 480px) {
-    grid-template-columns: repeat(1, 100px); /* Switch to 1 column */
+    grid-template-columns: repeat(3, 100px); /* Switch to 1 column */
   }
 `;
 

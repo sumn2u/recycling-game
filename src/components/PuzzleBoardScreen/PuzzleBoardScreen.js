@@ -66,6 +66,9 @@ const PuzzleBoardScreen = props => {
   const [successModal, setSuccessModal] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
+  const [isMobileScreen, setIsMobileScreen] = useState(window.matchMedia('screen and (max-width: 768px)').matches);
+  const [isSmallMobileScreen, setIsSmallMobileScreen] = useState(window.matchMedia('screen and (max-width: 425px)').matches);
+
 
   useEffect(() => {
     const img = new Image();
@@ -181,7 +184,7 @@ const PuzzleBoardScreen = props => {
         />
       )}
     <Octopus>
-            <SpaceOctopus />
+            {!isMobileScreen && <SpaceOctopus />}
       </Octopus>
         <Stars>
             <StarsSvg />
