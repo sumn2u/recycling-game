@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { ReactComponent as Wave2Svg } from "../../assets/sea-wave-2.svg";
 import { ReactComponent as Wave3Svg } from "../../assets/sea-wave-3.svg";
@@ -14,6 +14,19 @@ import { ReactComponent as RedFishSvg } from "../../assets/red-fish.svg";
 import { ReactComponent as BubblesSvg } from "../../assets/bubbles.svg";
 import { ReactComponent as JellyfishSvg } from "../../assets/jellyfish-smile.svg";
 import { ReactComponent as OctopusSvg } from "../../assets/octopus-smile.svg";
+
+
+const float = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+`;
+
+const waveAnimation = keyframes`
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-15px); }
+  100% { transform: translateX(0); }
+`;
 
 const Header = styled.div`
   box-sizing: border-box;
@@ -44,6 +57,7 @@ const Wave5 = styled(Wave5Svg)`
   bottom: 0px;
   left: 0;
   height: 20vh;
+  animation: ${waveAnimation} 8s ease-in-out infinite;
   @media (max-width: 480px) {
     height: 12.3vh;
     bottom: 16vh;
@@ -56,6 +70,7 @@ const Wave4 = styled(Wave4Svg)`
   position: fixed;
   bottom: 8vh;
   left: 0;
+  animation: ${waveAnimation} 7s ease-in-out infinite;
   @media (max-width: 480px) {
     height: 12.3vh;
     bottom: 16vh;
@@ -68,6 +83,7 @@ const Wave3 = styled(Wave3Svg)`
   position: fixed;
   bottom: 8vh;
   left: 0;
+  animation: ${waveAnimation} 5s ease-in-out infinite;
   @media (max-width: 480px) {
     height: 25vh;
     bottom: 0vh;
@@ -138,6 +154,7 @@ const Algae2 = styled(Algae2Svg)`
   right: 83.42%;
   bottom: -1%;
   z-index: 900;
+  animation: ${waveAnimation} 5s ease-in-out infinite;
   @media (max-width: 480px) {
   }
 `;
@@ -148,6 +165,7 @@ const Algae3 = styled(Algae3Svg)`
   right: 40.37%;
   bottom: -1%;
   z-index: 900;
+  
 `;
 
 const Scallop = styled(ScallopSvg)`
@@ -157,6 +175,7 @@ const Scallop = styled(ScallopSvg)`
   right: 1.3vw;
   bottom: 1.4vw;
   z-index: 900;
+  animation: ${float} 3s ease-in-out infinite;
   @media (max-width: 480px) {
     height: 8.3vh;
     right: 2.3vw;
@@ -171,6 +190,7 @@ const Crab = styled(CrabSvg)`
   left: 1.3vw;
   bottom: 1.8vw;
   z-index: 900;
+  animation: ${float} 5s ease-in-out infinite;
   @media (max-width: 480px) {
     height: 6.3vh;
   }
@@ -182,6 +202,7 @@ const Seahorse = styled(SeahorseSvg)`
   right: 76.57%;
   bottom: -3%;
   z-index: 900;
+  animation: ${float} 7s ease-in-out infinite;
 `;
 
 const Bubbles = styled(BubblesSvg)`
@@ -191,6 +212,7 @@ const Bubbles = styled(BubblesSvg)`
   right: 15%;
   bottom: 6.5vw;
   z-index: 901;
+  animation: ${float} 5s ease-in-out infinite;
   @media (max-width: 480px) {
     height: 6.3vh;
   }
@@ -202,12 +224,18 @@ const RedFish = styled(RedFishSvg)`
   right: 21.87%;
   bottom: 0.79%;
   z-index: 900;
+  animation: ${waveAnimation} 9s ease-in-out infinite;
+  &:hover {
+    transform: scale(1.1) rotate(-2deg);
+    cursor: pointer;
+  }
 `;
 
 const Octopus = styled(OctopusSvg)`
   position: fixed;
   right: 22.67%;
   bottom: 10%;
+  animation: ${float} 3s ease-in-out infinite;
 `;
 
 const Jellyfish = styled(JellyfishSvg)`
@@ -217,6 +245,7 @@ const Jellyfish = styled(JellyfishSvg)`
   left: 25%;
   bottom: 10%;
   z-index: 900;
+  animation: ${waveAnimation} 5s ease-in-out infinite;
   transform: rotate(-10deg);
   @media (max-width: 480px) {
     height: 6.3vh;

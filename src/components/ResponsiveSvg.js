@@ -12,6 +12,7 @@ const StyledSvg = styled.svg`
   width: 100%;
   height: auto;
   display: block;
+  width: 120vw;
 `;
 
 const ResponsiveSvg = ({ SvgComponent }) => {

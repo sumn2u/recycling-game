@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 import HowToPlayModal from "./HowToPlayModal";
@@ -9,6 +9,26 @@ import { spinscale } from "../Keyframes";
 import { ReactComponent as EarthSvg } from "../../assets/earth.svg";
 import { ReactComponent as StarsSvg } from "../../assets/stars.svg";
 import { ReactComponent as SpaceOctopus } from "../../assets/space-octopus.svg";
+
+// Subtle floating animation
+const float = keyframes`
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+`;
+
+// Slow earth spin
+const slowSpin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+// Gentle Octopus wave
+const octoWave = keyframes`
+  0% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(-5px); }
+  100% { transform: rotate(0deg) translateY(0); }
+`;
 
 const Container = styled.div`
   background-image: linear-gradient(#060606, #08345c);
@@ -55,14 +75,32 @@ const Octopus = styled.div`
   position: absolute;
   top: 25px;
   right: 20px;
+  animation: ${octoWave} 3s ease-in-out infinite;
 `;
 
 const Earth = styled.div`
   position: absolute;
-  bottom: 0px;
+  bottom: 0; /* allows space for full circle to show */
   left: -150px;
-  overflow: hidden;
+  overflow: visible; /* allow the SVG to render outside bounds */
+  z-index: 1;
+
+  svg {
+  
+    max-height: 40vh;
+    animation: ${slowSpin} 60s linear infinite;
+    transform-origin: center;
+  }
+
+  @media (max-width: 480px) {
+    bottom: -8vh;
+    svg {
+      width: 60vw;
+      max-height: 25vh;
+    }
+  }
 `;
+
 
 const ButtonContainer = styled.div`
   position: relative;
@@ -85,7 +123,7 @@ const Stars = styled.div`
   align-items: flex-start;
   justify-content: space-around;
   overflow: hidden;
-  animation: ${ spinscale } 4s linear infinite alternate;
+  animation: ${ spinscale } 6s ease-in-out infinite alternate;
 `;
 
 const LandingScreen = props => {
