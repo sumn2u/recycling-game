@@ -32,7 +32,7 @@ const ResultScreen = props => {
   const [badgeGiven, setBadgeGiven] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const game = searchParams.get('game');
-
+  const type = searchParams.get('type');
   useEffect(() => {
     if (props.count === 1) {
       setBadgeGiven(4)
@@ -51,7 +51,7 @@ const ResultScreen = props => {
     props.setCount(0);
     props.setBadCount(0);
     if(game) {
-      navigate(`/${game}`);
+      navigate(`/${game}?type=${type}`);
     }
     
   };

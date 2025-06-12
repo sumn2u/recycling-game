@@ -52,6 +52,13 @@ const GenericButton = styled.button`
       position: relative;
       
     `}
+    else if (props.primaryC) {
+      return `
+        background: #007bff; /* Primary Blue */
+        box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.25), inset -10px -10px 4px #339aff,
+          inset 10px 10px 4px #0056b3;
+      `;
+    }
     }
   }
   
@@ -63,6 +70,7 @@ const Button = props => {
       primary={props.primary}
       primaryR={props.primaryR}
       primaryB={props.primaryB}
+      primaryC={props.primaryC}
       className="btn"
       onClick={() => {
         props.handleClick();

@@ -5,6 +5,7 @@ import GameScreen from "./components/GameScreen/GameScreen";
 import ResultScreen from "./components/ResultScreen/ResultScreen";
 import LandingScreen from "./components/LandingScreen/LandingScreen";
 import GameSelectionScreen from "./components/GameSelectionScreen/GameSelectionScreen";
+import GameLocationScreen from "./components/GameLocationScreen/GameLocationScreen";
 import PuzzleBoardScreen from "./components/PuzzleBoardScreen/PuzzleBoardScreen";
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
@@ -60,6 +61,15 @@ function App() {
           path="/game-selection"
           element={ 
             <GameSelectionScreen
+            setGame={setGame}
+            />
+          }
+        />
+
+        <Route
+          path="/select-location"
+          element={ 
+            <GameLocationScreen
             setGame={setGame}
             />
           }

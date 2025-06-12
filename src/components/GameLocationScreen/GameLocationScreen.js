@@ -86,7 +86,7 @@ const Stars = styled.div`
   animation: ${ spinscale } 4s linear infinite alternate;
 `;
 
-const GameSelectionScreen = props => {
+const GameLocationScreen = props => {
   const navigate = useNavigate();
   const isMobileScreen = window.matchMedia('screen and (max-width: 768px)').matches;
   const startGame = (game) => {
@@ -97,7 +97,7 @@ const GameSelectionScreen = props => {
   return (
     
     <Container>
-      <Title>Select a game!</Title>
+      <Title>Select a location!</Title>
 
 
       <Octopus>
@@ -115,14 +115,21 @@ const GameSelectionScreen = props => {
 
 <Button primaryR
             type="button"
-            label="Waste Sorting ♻️"
-            handleClick={() => startGame('/select-location')}
+            label="🏠 Home"
+            handleClick={() => startGame('/waste-sorting?type=home')}
           ></Button>
           <Spacer/>
           <Button
             type="button"
-            handleClick={() => startGame('/waste-puzzle')}
-            label="Waste Puzzle 🧩"
+            handleClick={() => startGame('/waste-sorting?type=school')}
+            label="🏫 School"
+          ></Button>
+            <Spacer/>
+           <Button
+            primaryC
+            type="button"
+            handleClick={() => startGame('/waste-sorting?type=park')}
+            label="🌳 Park"
           ></Button>
           </ButtonContainer>
         <Spacer/>
@@ -135,4 +142,4 @@ const GameSelectionScreen = props => {
   );
 };
 
-export default GameSelectionScreen;
+export default GameLocationScreen;

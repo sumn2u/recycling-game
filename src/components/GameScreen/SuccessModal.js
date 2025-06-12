@@ -5,7 +5,7 @@ import Button from "../Button";
 import * as SC from "../MasterCss";
 import UIfx from "uifx";
 import successSound from "../../assets/sounds/hero_decorative-celebration-02.mp3";
-
+import {getValidItemsForGameType} from "../../utils/gameUtils";
 const SuccessBox = styled.div`
   background-color: rgba(36, 174, 95, 0.7);
   padding: 3em;
@@ -25,8 +25,10 @@ const SuccessModal = props => {
   successUIFX.play()
   const hideModal = () => {
     props.setSuccessModal(!props.successModal);
-
-    let shuffle = items.sort((a, b) => {
+    
+     // Filter items to match current gameType bins
+    const validItems = getValidItemsForGameType(items, props.gameType);
+    let shuffle = validItems.sort((a, b) => {
       return 0.5 - Math.random();
     });
     props.setCurrentItem(shuffle[0]);

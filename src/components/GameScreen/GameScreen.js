@@ -16,6 +16,8 @@ import CompostBin from "../../assets/compostable-bin.svg";
 import WineBottle from "../../images/wine-bottle.svg";
 import PauseIcon  from "../../assets/pause-icon.svg";
 import ResponsiveSvg from "../ResponsiveSvg";
+import { useLocation } from 'react-router-dom';
+import { getActiveBins } from "../../utils/gameUtils";
 
 const ItemTypes = {
   BIN: 'bin',
@@ -91,11 +93,17 @@ const GameScreen = props => {
   const [isMobileScreen, setIsMobileScreen] = useState(window.matchMedia('screen and (max-width: 768px)').matches);
   const [isSmallMobileScreen, setIsSmallMobileScreen] = useState(window.matchMedia('screen and (max-width: 425px)').matches);
 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const gameType = queryParams.get('type');
+
   // Function to check screen sizes
   const checkScreenSize = () => {
     setIsMobileScreen(window.matchMedia('screen and (max-width: 768px)').matches);
     setIsSmallMobileScreen(window.matchMedia('screen and (max-width: 425px)').matches);
   };
+
+  const activeBins = getActiveBins(gameType);
 
   useEffect(() => {
     // Initial check
@@ -130,6 +138,7 @@ const GameScreen = props => {
     setOptionsModal(!optionsModal);
   };
 
+
   return (
     <Container key="rendering">
       {successModal && (
@@ -139,6 +148,7 @@ const GameScreen = props => {
           itemVisibility={itemVisibility}
           setItemVisibility={setItemVisibility}
           successModal={successModal}
+          gameType={gameType}
           setSuccessModal={setSuccessModal}
         />
       )}
@@ -151,6 +161,7 @@ const GameScreen = props => {
           failModal={failModal}
           setFailModal={setFailModal}
           game={"waste-sorting"}
+          gameType={gameType}
           badCount={props.badCount}
         />
       )}
@@ -216,30 +227,34 @@ const GameScreen = props => {
           )}
 
       </SC.GameItem>
-
-      <SC.BlackBinBox>
-      <DroppableTarget
-          onDrop={(item, binType) => dropped(item, binType)}
-          binType="general waste"
-          isShaking={shakingBin === "general waste"}
-        />
-      </SC.BlackBinBox>
-
-      <SC.RecycleBinBox>
-      <DroppableTarget
-          onDrop={(item, binType) => dropped(item, binType)}
-          binType="recycling"
-          isShaking={shakingBin === "recycling"}
-        />
-      </SC.RecycleBinBox>
-
-      <SC.CompostBinBox>
-      <DroppableTarget
-          onDrop={(item, binType) => dropped(item, binType)}
-          binType="food compost"
-          isShaking={shakingBin === "food compost"}
-        />
-      </SC.CompostBinBox>
+      {activeBins.includes('general waste') && (
+        <SC.BlackBinBox>
+        <DroppableTarget
+            onDrop={(item, binType) => dropped(item, binType)}
+            binType="general waste"
+            isShaking={shakingBin === "general waste"}
+          />
+        </SC.BlackBinBox>
+      )}
+      {activeBins.includes('recycling') && (
+        <SC.RecycleBinBox>
+        <DroppableTarget
+            onDrop={(item, binType) => dropped(item, binType)}
+            binType="recycling"
+            isShaking={shakingBin === "recycling"}
+          />
+        </SC.RecycleBinBox>
+      )}
+      
+      {activeBins.includes('food compost') && (
+        <SC.CompostBinBox>
+        <DroppableTarget
+            onDrop={(item, binType) => dropped(item, binType)}
+            binType="food compost"
+            isShaking={shakingBin === "food compost"}
+          />
+        </SC.CompostBinBox>
+      )}
 
       {!isMobileScreen && <SC.Octopus /> }
       {isMobileScreen && !isSmallMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} /> }

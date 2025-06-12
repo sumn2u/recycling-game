@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import * as SC from "../MasterCss";
 import UIfx from "uifx";
 import errorSound from "../../assets/sounds/alert_error-01.mp3";
+import {getValidItemsForGameType} from "../../utils/gameUtils";
 
 const FailBox = styled.div`
   background-color: rgba(235, 16, 16, 0.7);
@@ -27,7 +28,10 @@ const FailModal = props => {
   const hideModal = () => {
     props.setFailModal(!props.failModal);
 
-    let shuffle = items.sort((a, b) => {
+    // Filter items to match current gameType bins
+    const validItems = getValidItemsForGameType(items, props.gameType);
+
+    let shuffle = validItems.sort((a, b) => {
       return 0.5 - Math.random();
     });
     props.setCurrentItem(shuffle[0]);
@@ -38,7 +42,7 @@ const FailModal = props => {
   const handleModal = () => {
     hideModal();
     if (props.badCount === 3) {
-      navigate(`/results?game=${props.game}`);
+      navigate(`/results?game=${props.game}&type=${props.gameType}`);
     }
   };
 
