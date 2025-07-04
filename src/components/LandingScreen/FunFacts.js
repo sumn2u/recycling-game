@@ -160,9 +160,7 @@ const FunFactsModal = ({ handleClose }) => {
       <MessageBox primary>
         <BoxMessage>
           
-          Discover more about how to recycle in your local area and reduce waste by visiting <ExtLink href='https://www.recyclenow.com/' target="blank">Recycle Now (UK)</ExtLink>. In Nepal,
-          organizations like <ExtLink href='https://www.khaalisisi.com/' target="blank"> khaalisisi</ExtLink> and <ExtLink href='https://momsstorenepal.com/' target="blank"> Moms Store Nepal (MSN)</ExtLink> are recycling wastes. 
-
+          Discover more about how to recycle in your local area and reduce waste by visiting <ExtLink href='https://www.recyclenow.com/' target="blank">Recycle Now (UK)</ExtLink>.
         </BoxMessage>
       </MessageBox>
 
