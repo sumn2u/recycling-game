@@ -1,0 +1,11 @@
+build/
+node_modules/
+*.log
+public/
+.DS_Store
+.vscode/
+.travis.yml
+build-widget.js
+config-overrides.js
+craco.config.js
+package.json

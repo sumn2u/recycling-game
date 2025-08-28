@@ -3,7 +3,7 @@ import { render, getByTitle, getByAltText, act } from '@testing-library/react';
 import GameScreen from './GameScreen';
 import Item from "./Item";
 
-// import { ReactComponent as RecycleBin } from "../../assets/recycle-bin.svg";
+// import { ReactComponent as RecycleBin } from "./assets/recycle-bin.svg";
 
 describe("The Game Screen", () => {
   it("should have a recycle bin on the page", () => {

@@ -76,7 +76,7 @@ No npm or bundler required. Just include the UMD bundle directly in your HTML:
 <recycling-game-widget width="500" height="700"></recycling-game-widget>
 
 <!-- UMD Bundle from unpkg -->
-<script src="https://app.unpkg.com/recycling-game-widget@0.0.4/files/dist/recycling-game-widget.js"></script>
+<script src="https://unpkg.com/recycling-game-widget@0.0.4/dist/recycling-game-widget.js"></script>
 ```
 
 - Replace `width` and `height` attributes to customize the widget size.

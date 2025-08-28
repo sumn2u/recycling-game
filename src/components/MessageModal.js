@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import UIfx from "uifx";
-import successSound from "../assets/sounds/hero_decorative-celebration-02.mp3";
-import errorSound from "../assets/sounds/alert_error-01.mp3";
 import Button from "../components/Button";
 
 const ModalContainer = styled.div`
@@ -33,7 +31,10 @@ const ModalMessage = styled.h1`
 `;
 
 const MessageModal = ({ type, message, onClose }) => {
-  const sound = type === "success" ? new UIfx(successSound) : new UIfx(errorSound);
+  const successSound = new UIfx(`${process.env.PUBLIC_URL}/assets/sounds/hero_decorative-celebration-02.mp3`);
+  const errorSound = new UIfx(`${process.env.PUBLIC_URL}/assets/sounds/alert_error-01.mp3`);
+
+  const sound = type === "success" ? successSound : errorSound;
 
   useEffect(() => {
     sound.play();

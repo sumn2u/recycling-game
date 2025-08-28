@@ -5,8 +5,10 @@ import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 import * as SC from "../MasterCss";
 import UIfx from "uifx";
-import errorSound from "../../assets/sounds/alert_error-01.mp3";
 import {getValidItemsForGameType} from "../../utils/gameUtils";
+
+
+
 
 const FailBox = styled.div`
   background-color: rgba(235, 16, 16, 0.7);
@@ -23,7 +25,9 @@ const FailBox = styled.div`
 `;
 
 const FailModal = props => {
-  const errorUIFX = new UIfx(errorSound)
+  const errorSound = new UIfx(`${process.env.PUBLIC_URL}/assets/sounds/alert_error-01.mp3`);
+
+  const errorUIFX = errorSound;
   errorUIFX.play()
   const hideModal = () => {
     props.setFailModal(!props.failModal);

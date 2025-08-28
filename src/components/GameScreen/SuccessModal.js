@@ -4,8 +4,8 @@ import items from "../../utils/itemData";
 import Button from "../Button";
 import * as SC from "../MasterCss";
 import UIfx from "uifx";
-import successSound from "../../assets/sounds/hero_decorative-celebration-02.mp3";
 import {getValidItemsForGameType} from "../../utils/gameUtils";
+
 const SuccessBox = styled.div`
   background-color: rgba(36, 174, 95, 0.7);
   padding: 3em;
@@ -21,7 +21,9 @@ const SuccessBox = styled.div`
 `;
 
 const SuccessModal = props => {
-  const successUIFX = new UIfx(successSound)
+  const successSound = new UIfx(`${process.env.PUBLIC_URL}/assets/sounds/hero_decorative-celebration-02.mp3`);
+
+  const successUIFX = successSound
   successUIFX.play()
   const hideModal = () => {
     props.setSuccessModal(!props.successModal);

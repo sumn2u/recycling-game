@@ -1,0 +1,16 @@
+{
+  "short_name": "reduce-reuse-recycle",
+  "name": "reduce-reuse-recycle",
+  "icons": [
+    {
+      "src": "/images/earth-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "orientation": "landscape",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#21b2d3"
+}
