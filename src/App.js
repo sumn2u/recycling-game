@@ -11,6 +11,9 @@ import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import puzzleGameImg from './assets/puzzle-game.jpg';
+import puzzleGameImg2 from './assets/puzzle-game-2.jpg';
+import puzzleGameImg3 from './assets/puzzle-game-3.jpg';
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -83,7 +86,7 @@ function App() {
             enableTouchEvents: true }}
             >
               <PuzzleBoardScreen
-                puzzleImage={puzzleGameImg}
+                puzzleImages={[puzzleGameImg, puzzleGameImg2, puzzleGameImg3]}
                 count={count}
                 setCount={setCount}
                 badCount={badCount}

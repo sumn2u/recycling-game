@@ -69,12 +69,37 @@ const PuzzleBoardScreen = props => {
   const [isMobileScreen, setIsMobileScreen] = useState(window.matchMedia('screen and (max-width: 768px)').matches);
   const [isSmallMobileScreen, setIsSmallMobileScreen] = useState(window.matchMedia('screen and (max-width: 425px)').matches);
 
+  const puzzles = props.puzzleImages || [];
+  const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(
+          puzzles.length > 0 ? Math.floor(Math.random() * puzzles.length) : 0
+    );
 
   useEffect(() => {
+    if (puzzles.length > 0 && puzzles[currentPuzzleIndex]) {
+    loadPuzzle(puzzles[currentPuzzleIndex]);
+  }
+  }, [currentPuzzleIndex, puzzles]);
+
+  const loadPuzzle = (imgSrc) => {
+    if (!imgSrc) return; // safety check
     const img = new Image();
-    img.src = props.puzzleImage;
-    img.onload = () => splitImage(img, 3, 3); // 3x3 grid
-  }, []);
+    img.src = imgSrc;
+    img.crossOrigin = "anonymous"; // in case of cross-origin issues
+    img.onload = () => {
+      if (img.width && img.height) {
+        splitImage(img, 3, 3); // 3x3 grid
+      } else {
+        console.error("Image loaded but width/height is zero");
+      }
+    };
+    img.onerror = () => console.error("Failed to load image:", imgSrc);
+
+    // Reset the puzzle state
+    setPlacedPieces({});
+    setMessage(null);
+  };
+
+
 
   const splitImage = (img, rows, cols) => {
     const pieceWidth = img.width / cols;
@@ -102,6 +127,11 @@ const PuzzleBoardScreen = props => {
       [targetId]: piece,
     }));
   };
+
+  // const handleNextPuzzle = () => {
+  //   setCurrentPuzzleIndex((prev) => (prev + 1) % puzzles.length); // loop through puzzles
+  // };
+
   const navigate = useNavigate();
 
   const checkIfPuzzleCompleted = () => {
@@ -183,6 +213,12 @@ const PuzzleBoardScreen = props => {
           onClose={closeMessageModal}
         />
       )}
+
+      {/* Switch to next puzzle button */}
+      {/* <button onClick={handleNextPuzzle} style={{ position: "absolute", top: 80, right: 20, zIndex: 100 }}>
+        Next Puzzle
+      </button> */}
+
     <Octopus>
             {!isMobileScreen && <SpaceOctopus />}
       </Octopus>
