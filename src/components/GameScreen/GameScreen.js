@@ -13,11 +13,15 @@ import * as SC from "./GameScreen.style";
 import RecycleBin from "../../assets/recycle-bin.svg";
 import BlackBin  from "../../assets/waste-bin-tidyman.svg";
 import CompostBin from "../../assets/compostable-bin.svg";
+import YardWasteBin from "../../assets/yard-waste.svg";
+import SpecialProgramsBin from "../../assets/special-programs.svg";
 import WineBottle from "../../images/wine-bottle.svg";
 import PauseIcon  from "../../assets/pause-icon.svg";
 import ResponsiveSvg from "../ResponsiveSvg";
 import { useLocation } from 'react-router-dom';
-import { getActiveBins } from "../../utils/gameUtils";
+import { getActiveBins, getValidItemsForGameType} from "../../utils/gameUtils";
+import items from "../../utils/itemData";
+import { useNavigate } from "react-router-dom"
 
 const ItemTypes = {
   BIN: 'bin',
@@ -70,6 +74,10 @@ const getBinImageSrc = (binType) => {
       return RecycleBin;
     case 'food compost':
       return CompostBin;
+    case 'yard waste':
+      return YardWasteBin;
+    case 'special programs':
+      return SpecialProgramsBin;
     default:
       return '';
   }
@@ -84,8 +92,11 @@ const GameScreen = props => {
     binImg: "images/recycle-bin.svg",
     fact: "Families use around 330 glass bottles and jars every year"
   });
+  const navigate = useNavigate();
   const [itemVisibility, setItemVisibility] = useState(true);
   const [successModal, setSuccessModal] = useState(false);
+  const [remainingItems, setRemainingItems] = useState([]);
+  const [gameFinished, setGameFinished] = useState(false);
   const [shakingBin, setShakingBin] = useState(null);
   const [failModal, setFailModal] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
@@ -106,6 +117,13 @@ const GameScreen = props => {
   const activeBins = getActiveBins(gameType);
 
   useEffect(() => {
+    const validItems = getValidItemsForGameType(items, gameType);
+    setRemainingItems(validItems);
+    
+    // Pick the first item
+    const firstItem = validItems[Math.floor(Math.random() * validItems.length)];
+    setCurrentItem(firstItem);
+
     // Initial check
     checkScreenSize();
 
@@ -117,6 +135,27 @@ const GameScreen = props => {
       window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
+
+  // Function to pick next item without repetition
+  const pickNextItem = () => {
+    let newRemaining = remainingItems.filter((item) => item.name !== currentItem.name);
+
+    // If all items used, reset the pool
+    if (newRemaining.length === 0) {
+      newRemaining = getValidItemsForGameType(items, gameType);
+     
+      if (newRemaining.length === 0) {
+        navigate(`/results?game=waste-sorting&type=${gameType}`);
+        return;
+      }
+    }
+
+    const nextItem = newRemaining[Math.floor(Math.random() * newRemaining.length)];
+    setRemainingItems(newRemaining);
+    setCurrentItem(nextItem);
+    setItemVisibility(true);
+  };
+
   const dropReaction = currentBin => {
     setItemVisibility(!itemVisibility);
 
@@ -144,24 +183,20 @@ const GameScreen = props => {
       {successModal && (
         <SuccessModal
           item={currentItem}
-          setCurrentItem={setCurrentItem}
-          itemVisibility={itemVisibility}
-          setItemVisibility={setItemVisibility}
-          successModal={successModal}
           gameType={gameType}
           setSuccessModal={setSuccessModal}
+          pickNextItem={pickNextItem}
+          remainingItems={remainingItems}
         />
       )}
       {failModal && (
         <FailModal
           item={currentItem}
-          setCurrentItem={setCurrentItem}
-          itemVisibility={itemVisibility}
-          setItemVisibility={setItemVisibility}
-          failModal={failModal}
           setFailModal={setFailModal}
           game={"waste-sorting"}
           gameType={gameType}
+          remainingItems={remainingItems}
+          pickNextItem={pickNextItem}
           badCount={props.badCount}
         />
       )}
@@ -213,7 +248,7 @@ const GameScreen = props => {
       {!isMobileScreen && <SC.Crab /> }
       {!isMobileScreen && <SC.Seahorse /> }
       {!isMobileScreen && <SC.RedFish />} 
-      {!isMobileScreen && <SC.Bubbles /> }
+      {/* {!isMobileScreen && <SC.Bubbles /> }  */}
       {!isMobileScreen &&<ResponsiveSvg SvgComponent={SC.Wave2} />}
       {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave3} />}
      
@@ -227,38 +262,60 @@ const GameScreen = props => {
           )}
 
       </SC.GameItem>
-      {activeBins.includes('general waste') && (
-        <SC.BlackBinBox>
-        <DroppableTarget
-            onDrop={(item, binType) => dropped(item, binType)}
-            binType="general waste"
-            isShaking={shakingBin === "general waste"}
-          />
-        </SC.BlackBinBox>
-      )}
-      {activeBins.includes('recycling') && (
-        <SC.RecycleBinBox>
-        <DroppableTarget
-            onDrop={(item, binType) => dropped(item, binType)}
-            binType="recycling"
-            isShaking={shakingBin === "recycling"}
-          />
-        </SC.RecycleBinBox>
-      )}
-      
-      {activeBins.includes('food compost') && (
-        <SC.CompostBinBox>
-        <DroppableTarget
-            onDrop={(item, binType) => dropped(item, binType)}
-            binType="food compost"
-            isShaking={shakingBin === "food compost"}
-          />
-        </SC.CompostBinBox>
-      )}
+      <SC.BinContainer>
+        {activeBins.includes('general waste') && (
+          <SC.BlackBinBox>
+          <DroppableTarget
+              onDrop={(item, binType) => dropped(item, binType)}
+              binType="general waste"
+              isShaking={shakingBin === "general waste"}
+            />
+          </SC.BlackBinBox>
+        )}
 
-      {!isMobileScreen && <SC.Octopus /> }
+        {activeBins.includes('special programs') && (
+          <SC.SpecialBinBox>
+          <DroppableTarget
+              onDrop={(item, binType) => dropped(item, binType)}
+              binType="special programs"
+              isShaking={shakingBin === "special programs"}
+            />
+          </SC.SpecialBinBox>
+        )}
+
+        {activeBins.includes('recycling') && (
+          <SC.RecycleBinBox>
+          <DroppableTarget
+              onDrop={(item, binType) => dropped(item, binType)}
+              binType="recycling"
+              isShaking={shakingBin === "recycling"}
+            />
+          </SC.RecycleBinBox>
+        )}
+        
+        {activeBins.includes('food compost') && (
+          <SC.CompostBinBox>
+          <DroppableTarget
+              onDrop={(item, binType) => dropped(item, binType)}
+              binType="food compost"
+              isShaking={shakingBin === "food compost"}
+            />
+          </SC.CompostBinBox>
+        )}
+
+        {activeBins.includes('yard waste') && (
+          <SC.YardBinBox>
+          <DroppableTarget
+              onDrop={(item, binType) => dropped(item, binType)}
+              binType="yard waste"
+              isShaking={shakingBin === "yard waste"}
+            />
+          </SC.YardBinBox>
+        )}
+      </SC.BinContainer>
+      {/* {!isMobileScreen && <SC.Octopus /> } */}
       {isMobileScreen && !isSmallMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} /> }
-      {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} />}
+      {/* {!isMobileScreen && <ResponsiveSvg SvgComponent={SC.Wave5} />} */}
       <SC.ItemText>{currentItem.name}</SC.ItemText>
     </Container>
   );

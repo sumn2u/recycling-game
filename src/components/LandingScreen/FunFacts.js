@@ -160,7 +160,7 @@ const FunFactsModal = ({ handleClose }) => {
       <MessageBox primary>
         <BoxMessage>
           
-          Discover more about how to recycle in your local area and reduce waste by visiting <ExtLink href='https://www.recyclenow.com/' target="blank">Recycle Now (UK)</ExtLink>.
+          Discover more about how to recycle in your local area and reduce waste by visiting <ExtLink href='https://www.dwaste.live/' target="blank">DWaste</ExtLink>.
         </BoxMessage>
       </MessageBox>
 

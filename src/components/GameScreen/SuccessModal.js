@@ -23,36 +23,26 @@ const SuccessBox = styled.div`
 const SuccessModal = props => {
   const successUIFX = new UIfx(successSound)
   successUIFX.play()
-  const hideModal = () => {
-    props.setSuccessModal(!props.successModal);
-    
-     // Filter items to match current gameType bins
-    const validItems = getValidItemsForGameType(items, props.gameType);
-    let shuffle = validItems.sort((a, b) => {
-      return 0.5 - Math.random();
-    });
-    props.setCurrentItem(shuffle[0]);
-    props.setItemVisibility(!props.itemVisibility);
-  };
 
-  const handleModal = () => {
-    hideModal();
+  const handleClose = () => {
+    props.setSuccessModal(false);
+    props.pickNextItem();
   };
 
   return (
-    <SuccessBox id="success" onClick={hideModal}>
+    <SuccessBox id="success" onClick={handleClose}>
       <SC.ModalHeader>Well Done!</SC.ModalHeader>
       <SC.ModalHeader>
-        <SC.OrangeText>{props.item.name} </SC.OrangeText> go in the <SC.OrangeText> {props.item.bin}</SC.OrangeText> bin.
+        <SC.OrangeText>{props.item.name} </SC.OrangeText> go in the <SC.OrangeText> {props.item.bin}</SC.OrangeText> {['yard waste', 'special programs'].includes(props.item.bin.toLowerCase()) ? '' : ' bin'}.
       </SC.ModalHeader>
       <SC.BadgeBox>
         
-        <SC.MessageBox expandd>
+        <SC.MessageBox expand>
         <SC.MessageImage alt={props.item.name} src={props.item.src} />
         <SC.BoxMessage>{props.item.fact}</SC.BoxMessage>
         </SC.MessageBox>
       </SC.BadgeBox>
-      <Button primary handleClick={handleModal} label="OK" />
+      <Button primary handleClick={handleClose} label="OK" />
     </SuccessBox>
   );
 };

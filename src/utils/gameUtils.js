@@ -1,7 +1,7 @@
 export const binConfig = {
-    home: ['general waste', 'recycling'],
+    home: ['general waste', 'recycling', 'yard waste', 'special programs'],
     school: ['general waste', 'recycling', 'food compost'],
-    park: ['general waste', 'food compost'],
+    park: ['general waste', 'food compost', 'special programs'],
   };
   
   // Function to get active bins with fallback

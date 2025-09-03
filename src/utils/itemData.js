@@ -11,6 +11,17 @@ import PlasticBottle from "../images/plastic-bottle.svg";
 import Shirt from "../images/shirt.svg";
 import SweetWrapper from "../images/sweet-wrapper.svg";
 import TeaBag from "../images/tea-bag.svg";
+import TreeLeaves from "../images/leaves.svg";
+import Grass from "../images/grass-and-yard-clippings.svg";
+import Cellphone from "../images/cellphone.svg";
+import MotorOil from "../images/motor-oil.svg";
+import Furniture from "../images/furniture.svg";
+import DVDCDTape from "../images/dvd-cd-vcr-tape.svg";
+import PensMarkers from "../images/pens_and_markers.svg";
+import AlkalineBattery from "../images/alkaline-batteries.svg";
+import PlasticDetergentBottle from "../images/plastic-detergent-bottles.svg";
+import PlasticUtensils from "../images/plastic-utensils.svg";
+import IceCreamContainers from "../images/ice-cream-containers.svg";
 import TinCan from "../images/tin-can.svg";
 import Straw from "../images/straw.png";
 import Can from "../images/can.png";
@@ -88,7 +99,7 @@ const items = [
     name: "Papers",
     src: Papers,
     bin: "recycling",
-    fact: "We recycle around 80% of paper in the UK!"
+    fact: "Uncontaminated paper always goes into the recycling bin."
   },
   {
     name: "Plastic Bags",
@@ -105,9 +116,8 @@ const items = [
   {
     name: "Clothes",
     src: Shirt,
-    bin: "general waste",
-    fact:
-      "You might not be able to recycle clothes at home, but you can probably take them to a recycling center such as Moms Store Nepal or Sukhawati Store Sukhawati Store Foundation!"
+    bin: "special programs",
+    fact: "You can donate old clothes to charity shops or clothing recycling bins!"
   },
   {
     name: "Sweet Wrappers",
@@ -242,6 +252,73 @@ const items = [
     bin: "recycling",
     fact: "The lids of takeaway coffee cups are recyclable alone."
   },
+  {
+    name: "Tree Leaves",
+    src: TreeLeaves,
+    bin: "yard waste",
+    fact: "Leaves can be composted and turned into nutrient-rich soil!"
+  },
+  {
+    name: "Grass Clippings",
+    src: Grass,
+    bin: "yard waste",
+    fact: "Grass clippings can be composted and used as mulch!"
+  }, 
+  {
+    name: "Cellphone",
+    src: Cellphone,
+    bin: "special programs",
+    fact: "Old cellphones can be recycled at special e-waste recycling points!"
+  }, 
+  {
+    name: "Motor Oils",
+    src: MotorOil,
+    bin: "special programs",
+    fact: "Used motor oils can be recycled at special collection points!"
+  },
+  {
+    name: "Furniture",
+    src: Furniture,
+    bin: "special programs",
+    fact: "Old furniture can be recycled or donated to local charities!"
+  },
+  {
+    name: "DVD/CD/VCR Tape",
+    src: DVDCDTape,
+    bin: "general waste",
+    fact: "Old DVDs, CDs and VCR tapes cannot be recycled in regular recycling bins."
+  }, 
+  {
+    name: "Pens and Markers",
+    src: PensMarkers,
+    bin: "general waste",
+    fact: "Used pens and markers go in the general waste bin as they cannot be recycled."
+  }, 
+  {
+    name: "Alkaline Batteries",
+    src: AlkalineBattery,
+    bin: "general waste",
+    fact: "Alkaline batteries can be disposed of in the general waste bin, but consider using rechargeable batteries to reduce waste!"  
+  }, 
+  {
+    name: "Plastic Detergent Bottles",
+    src: PlasticDetergentBottle,
+    bin: "recycling",
+    fact: "Plastic detergent bottles are 100% recyclable. Remember to rinse them out before recycling!"
+  }, 
+  {
+    name: "Plastic Utensils",
+    src: PlasticUtensils,
+    bin: "general waste",
+    fact: "Plastic utensils cannot be recycled in regular recycling bins."
+  }, 
+  {
+    name: "Ice Cream Containers",
+    src: IceCreamContainers,
+    bin: "general waste",
+    fact: "Ice cream containers are often contaminated and cannot be recycled."
+  }
+
 ];
 
 export default items;

@@ -68,7 +68,7 @@ const Wave4 = styled(Wave4Svg)`
   width: 100vw;
   height: 20vh;
   position: fixed;
-  bottom: 8vh;
+  bottom: 0vh;
   left: 0;
   animation: ${waveAnimation} 7s ease-in-out infinite;
   @media (max-width: 480px) {
@@ -81,7 +81,7 @@ const Wave3 = styled(Wave3Svg)`
   width: 100vw;
   height: 20vh;
   position: fixed;
-  bottom: 8vh;
+  bottom: 0vh;
   left: 0;
   animation: ${waveAnimation} 5s ease-in-out infinite;
   @media (max-width: 480px) {
@@ -94,7 +94,7 @@ const Wave2 = styled(Wave2Svg)`
   width: 100vw;
   height: 20vh;
   position: fixed;
-  bottom: 7.6vh;
+  bottom: 0vh;
   left: 0;
   @media (max-width: 480px) {
     height: 1vh;
@@ -102,39 +102,58 @@ const Wave2 = styled(Wave2Svg)`
   }
 `;
 
-const BlackBinBox = styled.div`
+const BinContainer = styled.div`
   position: fixed;
-  bottom: 7.5vh;
-  left: 8%;
+  bottom: 7.5vh; // default bottom for desktop
+  width: 100%;
+  display: flex;
+  justify-content: space-around; // evenly space bins
+  align-items: flex-end;
+
   @media (max-width: 480px) {
-    bottom: 27vh;
+    bottom: 27vh; // move up for mobile
+    flex-wrap: wrap; // wrap bins if screen too small
   }
 `;
 
-const RecycleBinBox = styled.div`
-  position: fixed;
-  bottom: 7.5vh;
-  left: 50%;
-  margin-left: -14vw;
+// Each bin gets responsive sizing
+const BinBox = styled.div`
+  img {
+    width: auto; // keep aspect ratio
+    max-height: 25vh; // max height for desktop
+  }
+
   @media (max-width: 480px) {
-    bottom: 27vh;
+    img {
+      height: 12vh; // smaller height for mobile
+      max-width: 20vw;
+    }
   }
 `;
 
-const CompostBinBox = styled.div`
-  position: fixed;
-  bottom: 7.5vh;
-  right: 8%;
-  @media (max-width: 480px) {
-    bottom: 27vh;
-  }
-  
-`;
+const BlackBinBox = styled(BinBox)``;
+const RecycleBinBox = styled(BinBox)``;
+const CompostBinBox = styled(BinBox)``;
+const YardBinBox = styled(BinBox)`
+bottom: 7.5vh;`;
+const SpecialBinBox = styled(BinBox)`
+bottom: 7.5vh;`;
+
 
 const GameItem = styled.div`
   position: fixed;
-  top: 10%;
-  left: 0%;
+  top: 12%;
+  left: 2%;
+  img {
+    height: 10vh;
+    max-width: 5vw;
+  }
+  @media (max-width: 480px) {
+    img {
+      max-height: 12vh; // smaller height for mobile
+      max-width: 20vw;
+    }
+  }
 `;
 
 const Algae1 = styled(Algae1Svg)`
@@ -273,8 +292,10 @@ const ItemText = styled.h2`
   }
 `;
 
+
 export {
   Header,
+  BinContainer,
   LivesContainer,
   Wave5,
   Wave4,
@@ -294,5 +315,7 @@ export {
   RedFish,
   Octopus,
   Jellyfish,
-  ItemText
+  ItemText,
+  SpecialBinBox,
+  YardBinBox
 };

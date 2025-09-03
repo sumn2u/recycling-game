@@ -25,35 +25,24 @@ const FailBox = styled.div`
 const FailModal = props => {
   const errorUIFX = new UIfx(errorSound)
   errorUIFX.play()
-  const hideModal = () => {
-    props.setFailModal(!props.failModal);
-
-    // Filter items to match current gameType bins
-    const validItems = getValidItemsForGameType(items, props.gameType);
-
-    let shuffle = validItems.sort((a, b) => {
-      return 0.5 - Math.random();
-    });
-    props.setCurrentItem(shuffle[0]);
-    props.setItemVisibility(!props.itemVisibility);
-  };
 
   const navigate = useNavigate();
-  const handleModal = () => {
-    hideModal();
+  const handleClose = () => {
+    props.setFailModal(false);
+    props.pickNextItem();
     if (props.badCount === 3) {
       navigate(`/results?game=${props.game}&type=${props.gameType}`);
     }
   };
 
-  
+  console.log("This is inside fail modal ", props.item);
 
   return (
-    <FailBox id="fail" onClick={hideModal}>
+    <FailBox id="fail" onClick={handleClose}>
       
       <SC.ModalHeader>Uh Oh!</SC.ModalHeader>
       <SC.ModalHeader>
-        <SC.OrangeText>{props.item.name}</SC.OrangeText> go in the <SC.OrangeText>{props.item.bin}</SC.OrangeText> bin.
+        <SC.OrangeText>{props.item.name}</SC.OrangeText> go in the <SC.OrangeText>{props.item.bin}</SC.OrangeText> {['yard waste', 'special programs'].includes(props.item.bin.toLowerCase()) ? '' : ' bin'}.
       </SC.ModalHeader>
       <SC.BadgeBox>
         <SC.MessageBox expand>
@@ -61,7 +50,7 @@ const FailModal = props => {
         <SC.BoxMessage>{props.item.fact}</SC.BoxMessage>
         </SC.MessageBox>
       </SC.BadgeBox>
-      <Button primary handleClick={handleModal} label="OK" />
+      <Button primary handleClick={handleClose} label="OK" />
     </FailBox>
   );
 };
