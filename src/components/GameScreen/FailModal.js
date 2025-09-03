@@ -35,8 +35,6 @@ const FailModal = props => {
     }
   };
 
-  console.log("This is inside fail modal ", props.item);
-
   return (
     <FailBox id="fail" onClick={handleClose}>
       

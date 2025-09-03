@@ -47,6 +47,11 @@ const ResultScreen = props => {
 
   const navigate = useNavigate();
 
+
+  const goToCertificate = () => {
+    navigate("/certificate", { state: { count: props.count, badgeGiven } });
+  };
+
   const restartGame = () => {
     props.setCount(0);
     props.setBadCount(0);
@@ -84,7 +89,10 @@ const ResultScreen = props => {
         <Button label="learn more" handleClick={props.showFunFactsModal}>
           {props.label}
         </Button>
-
+        
+         <Button primaryC  label="Get Certificate" handleClick={goToCertificate}>
+          {props.label}
+        </Button>
         <Button primary label="Play again" handleClick={restartGame}>
           {props.label}
         </Button>

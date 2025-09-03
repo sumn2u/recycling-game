@@ -5,6 +5,7 @@ import GameScreen from "./components/GameScreen/GameScreen";
 import ResultScreen from "./components/ResultScreen/ResultScreen";
 import LandingScreen from "./components/LandingScreen/LandingScreen";
 import GameSelectionScreen from "./components/GameSelectionScreen/GameSelectionScreen";
+import CertificateScreen from "./components/CertificateScreen/CertificateScreen";
 import GameLocationScreen from "./components/GameLocationScreen/GameLocationScreen";
 import PuzzleBoardScreen from "./components/PuzzleBoardScreen/PuzzleBoardScreen";
 import { DndProvider } from 'react-dnd';
@@ -140,6 +141,10 @@ function App() {
             />
           }
         />
+        <Route
+          path="/certificate"
+          element={<CertificateScreen />}
+          />
         <Route path="*" element={<Error />} />
       </Routes>
     </main>
