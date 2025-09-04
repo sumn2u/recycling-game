@@ -3,7 +3,7 @@ import PuzzleBoard from "./PuzzleBoard";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MessageModal from "../MessageModal";
-import * as SC from "../GameScreen/GameScreen.style"
+import * as SC from "../GameScreen/GameScreen.style";
 import { ReactComponent as StarsSvg } from "../../assets/stars.svg";
 import { IconImage } from "../MasterCss";
 import ProgressScore from "../GameScreen/ProgressScore";
@@ -12,7 +12,7 @@ import OptionsModal from "../GameScreen/OptionsModal";
 import LivesScore from "../GameScreen/LivesScore";
 import { ReactComponent as SpaceOctopus } from "../../assets/space-octopus.svg";
 import { spinscale } from "../Keyframes";
-import PauseIcon  from "../../assets/pause-icon.svg";
+import PauseIcon from "../../assets/pause-icon.svg";
 
 const Stars = styled.div`
   position: absolute;
@@ -26,7 +26,7 @@ const Stars = styled.div`
   align-items: flex-end;
   justify-content: space-around;
   overflow: hidden;
-  animation: ${ spinscale } 4s linear infinite alternate;
+  animation: ${spinscale} 4s linear infinite alternate;
 `;
 
 const PuzzleBoardContainer = styled.div`
@@ -50,38 +50,52 @@ const PuzzleBoardContainer = styled.div`
   }
 `;
 
-
 const Octopus = styled.div`
-    position: absolute;
-    bottom: 10px;
-    overflow: hidden;
-    left: 10px;
-    animation: ${ spinscale } 8s linear infinite alternate;
+  position: absolute;
+  bottom: 10px;
+  overflow: hidden;
+  left: 10px;
+  animation: ${spinscale} 8s linear infinite alternate;
 `;
 
-const PuzzleBoardScreen = props => {
+const PuzzleBoardScreen = (props) => {
   const [imagePieces, setImagePieces] = useState([]);
   const [placedPieces, setPlacedPieces] = useState({});
   const [message, setMessage] = useState(null);
   const [successModal, setSuccessModal] = useState(false);
   const [optionsModal, setOptionsModal] = useState(false);
   const [failModal, setFailModal] = useState(false);
-  const [isMobileScreen, setIsMobileScreen] = useState(window.matchMedia('screen and (max-width: 768px)').matches);
-  const [isSmallMobileScreen, setIsSmallMobileScreen] = useState(window.matchMedia('screen and (max-width: 425px)').matches);
+  const [isMobileScreen] = useState(
+    window.matchMedia("screen and (max-width: 768px)").matches
+  );
 
   const puzzles = props.puzzleImages || [];
+  const navigate = useNavigate();
+
   const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(
-          puzzles.length > 0 ? Math.floor(Math.random() * puzzles.length) : 0
-    );
+    puzzles.length > 0 ? 0 : -1
+  );
+
+  // Redirect if no puzzles
+  useEffect(() => {
+    if (puzzles.length === 0) {
+      navigate(`/results?game=waste-puzzle`);
+    }
+  }, [puzzles, navigate]);
 
   useEffect(() => {
-    if (puzzles.length > 0 && puzzles[currentPuzzleIndex]) {
-    loadPuzzle(puzzles[currentPuzzleIndex]);
-  }
+    if (puzzles.length > 0 && currentPuzzleIndex >= 0) {
+      loadPuzzle(puzzles[currentPuzzleIndex]);
+    }
   }, [currentPuzzleIndex, puzzles]);
 
   const loadPuzzle = (imgSrc) => {
     if (!imgSrc) return; // safety check
+    // Reset state for new puzzle
+    setImagePieces([]);     // 🔥 clear old puzzle pieces
+    setPlacedPieces({});
+    setMessage(null);
+
     const img = new Image();
     img.src = imgSrc;
     img.crossOrigin = "anonymous"; // in case of cross-origin issues
@@ -94,12 +108,10 @@ const PuzzleBoardScreen = props => {
     };
     img.onerror = () => console.error("Failed to load image:", imgSrc);
 
-    // Reset the puzzle state
+    // Reset puzzle state
     setPlacedPieces({});
     setMessage(null);
   };
-
-
 
   const splitImage = (img, rows, cols) => {
     const pieceWidth = img.width / cols;
@@ -112,7 +124,17 @@ const PuzzleBoardScreen = props => {
         canvas.width = pieceWidth;
         canvas.height = pieceHeight;
         const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
+        ctx.drawImage(
+          img,
+          x * pieceWidth,
+          y * pieceHeight,
+          pieceWidth,
+          pieceHeight,
+          0,
+          0,
+          pieceWidth,
+          pieceHeight
+        );
         pieces.push({ id: `${x}-${y}`, src: canvas.toDataURL(), x, y });
       }
     }
@@ -128,28 +150,45 @@ const PuzzleBoardScreen = props => {
     }));
   };
 
-  // const handleNextPuzzle = () => {
-  //   setCurrentPuzzleIndex((prev) => (prev + 1) % puzzles.length); // loop through puzzles
-  // };
-
-  const navigate = useNavigate();
+  const handleNextPuzzle = () => {
+    if (currentPuzzleIndex + 1 >= puzzles.length) {
+      // no more puzzles → go to results
+      navigate(`/results?game=waste-puzzle`);
+    } else {
+      setCurrentPuzzleIndex((prev) => prev + 1);
+      setPlacedPieces({});
+    }
+  };
 
   const checkIfPuzzleCompleted = () => {
     const allSlotsFilled = Object.keys(placedPieces).length === 9; // 3x3 grid, 9 slots
     if (allSlotsFilled) {
-      const isCorrect = Object.entries(placedPieces).every(([targetId, piece]) => {
-        const targetX = targetId % 3;
-        const targetY = Math.floor(targetId / 3);
-        return piece.x === targetX && piece.y === targetY;
-      });
+      const isCorrect = Object.entries(placedPieces).every(
+        ([targetId, piece]) => {
+          const targetX = targetId % 3;
+          const targetY = Math.floor(targetId / 3);
+          return piece.x === targetX && piece.y === targetY;
+        }
+      );
 
       if (isCorrect) {
-            setMessage({ text: "🎉 Amazing! You nailed it! Puzzle completed perfectly! 🧩", type: "success" });
-            props.setCount(props.count + 2);
-        } else {
-            setMessage({ text: "⚠️ Oops! Almost there, but the pieces aren’t quite right yet. Give it another try!", type: "error" });
-            props.setBadCount(props.badCount + 1);
-        }
+        setMessage({
+          text: "🎉 Amazing! You nailed it! Puzzle completed perfectly! 🧩",
+          type: "success",
+        });
+        props.setCount(props.count + 2);
+
+        // Move to next puzzle after short delay
+        setTimeout(() => {
+          handleNextPuzzle();
+        }, 100);
+      } else {
+        setMessage({
+          text: "⚠️ Oops! Almost there, but the pieces aren’t quite right yet. Give it another try!",
+          type: "error",
+        });
+        props.setBadCount(props.badCount + 1);
+      }
     }
   };
 
@@ -157,11 +196,17 @@ const PuzzleBoardScreen = props => {
     checkIfPuzzleCompleted();
   }, [placedPieces]);
 
-  const closeMessageModal = () => {
-    setMessage(null); // Close the modal
+  useEffect(() => {
     if (props.badCount === 3) {
+      setFailModal(true);
+      setTimeout(() => {
         navigate(`/results?game=waste-puzzle`);
+      }, 500);
     }
+  }, [props.badCount, navigate]);
+
+  const closeMessageModal = () => {
+    setMessage(null);
   };
 
   const showOptionsModal = () => {
@@ -170,8 +215,7 @@ const PuzzleBoardScreen = props => {
 
   return (
     <PuzzleBoardContainer>
-
-{optionsModal && (
+      {optionsModal && (
         <OptionsModal
           optionsModal={optionsModal}
           setOptionsModal={setOptionsModal}
@@ -189,24 +233,31 @@ const PuzzleBoardScreen = props => {
         />
       )}
 
-    {props.howToPlayModal && (
-          <HowToPlayModal handleClose={props.hideHowToPlayModal} game={"waste-puzzle"}></HowToPlayModal>
+      {props.howToPlayModal && (
+        <HowToPlayModal
+          handleClose={props.hideHowToPlayModal}
+          game={"waste-puzzle"}
+        ></HowToPlayModal>
       )}
 
-    <SC.Header>
-        <IconImage game  onClick={showOptionsModal} src={PauseIcon} cursor="pointer"/>
+      <SC.Header>
+        <IconImage
+          game
+          onClick={showOptionsModal}
+          src={PauseIcon}
+          cursor="pointer"
+        />
         <SC.LivesContainer>
-            
           <LivesScore
             badCount={props.badCount}
             successModal={successModal}
             failModal={failModal}
           />
-        </SC.LivesContainer> 
-        <ProgressScore gameScreen count={props.count} /> 
+        </SC.LivesContainer>
+        <ProgressScore gameScreen count={props.count} />
       </SC.Header>
-    
-        {message && (
+
+      {message && (
         <MessageModal
           type={message.type}
           message={message.text}
@@ -214,20 +265,19 @@ const PuzzleBoardScreen = props => {
         />
       )}
 
-      {/* Switch to next puzzle button */}
-      {/* <button onClick={handleNextPuzzle} style={{ position: "absolute", top: 80, right: 20, zIndex: 100 }}>
-        Next Puzzle
-      </button> */}
-
-    <Octopus>
-            {!isMobileScreen && <SpaceOctopus />}
-      </Octopus>
-        <Stars>
-            <StarsSvg />
-        </Stars>
-      <PuzzleBoard pieces={imagePieces} rows={3} cols={3} placedPieces={placedPieces} onDrop={handleDrop} />
+      <Octopus>{!isMobileScreen && <SpaceOctopus />}</Octopus>
+      <Stars>
+        <StarsSvg />
+      </Stars>
+      <PuzzleBoard
+        pieces={imagePieces}
+        rows={3}
+        cols={3}
+        placedPieces={placedPieces}
+        onDrop={handleDrop}
+      />
     </PuzzleBoardContainer>
   );
-}
+};
 
 export default PuzzleBoardScreen;
