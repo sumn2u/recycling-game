@@ -43,6 +43,7 @@ function App() {
   };
 
   return (
+    <>
     <main className="App">
       <Routes>
         <Route
@@ -146,8 +147,31 @@ function App() {
           element={<CertificateScreen />}
           />
         <Route path="*" element={<Error />} />
+        
       </Routes>
     </main>
+ 
+   <footer
+      style={{
+        textAlign: "center",
+        padding: "10px",
+        fontSize: "14px",
+        color: "#666",
+        zIndex: 1000,
+        position: "relative",
+      }}
+    >
+      © {new Date().getFullYear()}{" "}
+      <a
+        href="https://dwaste.live"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#666", textDecoration: "none", fontWeight: "bold" }}
+      >
+        D.Waste
+      </a>. All rights reserved.
+    </footer>
+    </>
   );
 }
 

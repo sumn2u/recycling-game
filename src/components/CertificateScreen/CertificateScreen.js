@@ -77,48 +77,53 @@ const CertificateScreen = () => {
       return;
     }
     setError("");
-    
+
     const badgePath = badge.src;
-    const badgeDataURI = await getBadgeDataURI(badgePath); // convert to base64
+    const badgeDataURI = await getBadgeDataURI(badgePath);
 
     const today = new Date();
     const humanDate = today.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
 
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Certificate of Achievement</title>
-          <style>
-            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
-            .certificate { border: 10px solid #f4a261; padding: 50px; background-color: #fff8e1; border-radius: 10px; }
-            h1 { font-size: 48px; margin-bottom: 20px; }
-            h2 { font-size: 32px; margin-bottom: 20px; }
-            img { width: 80px; margin-bottom: 20px; }
-            p { font-size: 24px; margin: 10px 0; }
-          </style>
-        </head>
-        <body>
-          <div class="certificate">
-            <h1>Certificate of Achievement</h1>
-            <h2>${name}</h2>
-            <img src="${badgeDataURI}" alt="Badge" />
-            <p>Successfully sorted <strong>${count}</strong> items today!</p>
-            <p>Issued by <strong>D.Waste</strong></p>
-            <p>Date: <strong>${humanDate}</strong></p>
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
+    if (!printWindow) return; // safety check if popup blocked
+
+    // Add styles
+    const style = printWindow.document.createElement("style");
+    style.textContent = `
+      body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
+      .certificate { border: 10px solid #f4a261; padding: 50px; background-color: #fff8e1; border-radius: 10px; }
+      h1 { font-size: 48px; margin-bottom: 20px; }
+      h2 { font-size: 32px; margin-bottom: 20px; }
+      img { width: 80px; margin-bottom: 20px; }
+      p { font-size: 24px; margin: 10px 0; }
+    `;
+    printWindow.document.head.appendChild(style);
+
+    // Build certificate content
+    const certificate = printWindow.document.createElement("div");
+    certificate.className = "certificate";
+    certificate.innerHTML = `
+      <h1>Certificate of Achievement</h1>
+      <h2>${name}</h2>
+      <img id="badge" src="${badgeDataURI}" alt="Badge" />
+      <p>Successfully sorted <strong>${count}</strong> items today!</p>
+      <p>Issued by <strong>D.Waste</strong></p>
+      <p>Date: <strong>${humanDate}</strong></p>
+    `;
+    printWindow.document.body.appendChild(certificate);
+
+    // Wait for badge image to load before printing
+    const img = printWindow.document.getElementById("badge");
+    img.onload = () => {
+      printWindow.print();
+      printWindow.close();
+    };
   };
+
 
   return (
     <Wrapper>
@@ -144,6 +149,8 @@ const CertificateScreen = () => {
       <Button primary label="Print Certificate" handleClick={handlePrint} />
       <Spacer />
       <Button label="Back" handleClick={() => navigate(-1)} />
+      <Spacer />
+      <Spacer />
     </Wrapper>
   );
 };
